@@ -4,33 +4,29 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                script {
-                    sh 'g++ -o hello_exec main/hello.cpp'
-                }
+                sh 'g++ main/invalid_file.cpp -o main/hello_exec' // Intentional error!
             }
         }
-        
+
         stage('Test') {
             steps {
-                script {
-                    sh './hello_exec'
-                }
+                sh './main/hello_exec'
             }
         }
-        
+
         stage('Deploy') {
             steps {
-                echo 'Deploying Application...'
+                echo 'Deployment Successful: Simulating Deployment...'
             }
         }
     }
 
     post {
-        failure {
-            echo 'Pipeline Failed'
-        }
         success {
-            echo 'Pipeline Executed Successfully'
+            echo '✅ Pipeline executed successfully!'
+        }
+        failure {
+            echo '❌ Pipeline failed. Check logs for errors.'
         }
     }
 }
